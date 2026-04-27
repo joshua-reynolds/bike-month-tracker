@@ -3,100 +3,113 @@
 <html>
 
 <head>
-	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-	<title>Wellness Spring Training</title>
-	<link rel='stylesheet'  href="css/style.css?v=<?php echo time(); ?>">
-	<script src="js/script.js"></script>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Wellness Bike Month Tracker</title>
+    <link rel='stylesheet' href="css/style.css?v=<?php echo time(); ?>">
+
 </head>
 
 <?php
-	include_once 'includes/dbconnect.inc.php';
-	// $sqli = "SELECT team_id, name, runner1, runner2, runner3, runs, outs FROM teams";
-	$sqli = "SELECT t.team_id, t.name
-				FROM teams t;";
-	$result = mysqli_query($conn, $sqli);
-	$rows = array();
-	while($r = mysqli_fetch_assoc($result)) {
-		$rows[] = $r;
-	}
+include_once 'includes/dbconnect.inc.php';
+
+$sqli = "SELECT t.team_id, t.name, COALESCE(SUM(r.miles), 0) AS total_miles, COALESCE(COUNT(r.team_id), 0) AS total_rides
+                FROM teams t
+                LEFT JOIN rides r ON t.team_id = r.team_id
+                GROUP BY t.team_id, t.name;";
+$result = mysqli_query($conn, $sqli);
+$rows = array();
+while ($r = mysqli_fetch_assoc($result)) {
+    $rows[] = $r;
+}
 
 
-	$jsonData = json_encode($rows);
-	// print_r($jsonData)
+$jsonData = json_encode($rows);
+// print_r($jsonData)
 
 
 ?>
 
 <script type="text/javascript">
-	const teams = <?php echo $jsonData;?>;
-	console.log(teams)
+    let teams = <?php echo $jsonData; ?>;
+    console.log(teams)
+
+    let  grandTotalMiles = teams.reduce((accumulator, team) => {
+        return accumulator + parseFloat(team.total_miles);
+    }, 0);
+
+    console.log(grandTotalMiles)
+
+    let mileageProgress = grandTotalMiles / 2071
+    
 </script>
 
 
 
 <body>
 
-<div id="headerDiv">
-		
-		<div id="logoDiv">
-			<a href="https://wfrc.org/">
-				<img src="graphics/WFRC logo long white_transparent.png" id="logo"  >
-			</a>
-		</div>
+    <div id="headerDiv">
+        <div id="logoDiv">
+            <a href="https://wfrc.org/">
+                <img src="graphics/WFRC logo long white_transparent.png" id="logo">
+            </a>
+        </div>
 
-		<div id="titleDiv">
-			<h1>Wellness Bike Month (2026)</h1>
-		</div>
+        <div id="titleDiv">
+            <h1>Wellness Bike Month Tracker (2026)</h1>
+        </div>
+    </div>
 
-	</div>
+    <div id="aboutModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
 
 
-
-
-  
-
-  <div class="flex-container">
-        
-        <div id="imageContentDiv">
-            
-            <div id="imageDiv">
-                <img id="image" src="graphics/biking-in-the-wasatch.png" alt="stadium">
-            </div>
-
-            <div id="progress-container"></div>
-            
-            <div id="contentDiv">
-                <p>
+                <div id="contentDiv">
+                    <div id="imageDiv">
+                        <img id="image" src="graphics/biking-in-the-wasatch.png" alt="stadium">
+                    </div>
                     <h2>The Mission:</h2>
-                    <p>Collectively bike the length of the Tour de France (**2,071 miles**) by June 1st!</p> 
-                    
-                    
+                    <p>Collectively bike the length of the Tour de France (**2,071 miles**) by June 1st!</p>
 
                     <h2>Rules of the Road:</h2>
                     <ul>
-    
+
                         <li><strong>All Wheels Welcome:</strong> E-bikes, stationary bikes, and unicycles all count.</li>
                         <li><strong>Bring a Buddy:</strong> Towing a passenger (trailer/carrier)? Count their miles too!</li>
                         <li><strong>Double Miles:</strong> Earn 2x mileage for the <strong>Golden Spoke Ride</strong> on May 16th.</li>
                         <li><strong>No Bike? No Problem:</strong> Walking miles count at a 1:1 ratio.</li>
-                        <li>Click <a href="standings.php">here</a> to view the top cyclists.</li>
+                        <!-- <li>Click <a href="standings.php">here</a> to view the top cyclists.</li> -->
                     </ul>
-                </p>
 
-                <p>
                     <h2>How to play:</h2>
                     <ol>
-                    <li><strong>Select</strong> your team from the dropdown.</li>
-                    <li><strong>Enter</strong> your total mileage for the ride.</li>
-                    <li><strong>Indicate</strong> if it was part of the Golden Spoke Ride.</li>
-                    <li><strong>Log it!</strong> Click the button below to register your ride.</li>
+                        <li><strong>Select</strong> your team from the dropdown.</li>
+                        <li><strong>Enter</strong> your total mileage for the ride.</li>
+                        <li><strong>Indicate</strong> if it was part of the Golden Spoke Ride.</li>
+                        <li><strong>Log it!</strong> Click the button below to register your ride.</li>
                     </ol>
                     <p style="font-size: 0.9em; color: #555;">
                         <em>Flat tire? Email <a href="mailto:josh.reynolds@wfrc.utah.gov">josh.reynolds@wfrc.utah.gov</a> to fix a log </em>
+
                     </p>
-                </p>
+                </div>
             </div>
-            
+        </div>
+
+
+
+    <div class="flex-container">
+        <div id="imageContentDiv">
+
+            <div id="progress-container"></div>
+            <br>
+            <br>
+
+
+
+
+
+
             <div id="contentDiv2">
                 <div id="runsP"></div>
                 <div id="outsP"></div>
@@ -105,40 +118,39 @@
                 <div id="runnersDiv"></div>
             </div>
         </div>
-    
+
         <div id="teamSelectorDiv">
             <form id="rideForm">
                 <div class="select">
                     <select id="teamSelect" name="team" onchange="validateForm()">
                         <option selected disabled>----- Select your team -----</option>
                         <?php
-                            $sqli = "SELECT team_id,name FROM teams ORDER BY teams.name ASC;";
-                            $result = mysqli_query($conn, $sqli);
-                            while ($row = mysqli_fetch_array($result)){
-                                echo '<option value='.$row['team_id'].'>'.$row['name'].'</option>';
-                            }
+                        $sqli = "SELECT team_id,name FROM teams ORDER BY teams.name ASC;";
+                        $result = mysqli_query($conn, $sqli);
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo '<option value=' . $row['team_id'] . '>' . $row['name'] . '</option>';
+                        }
                         ?>
                     </select>
                 </div>
                 <br>
-                
 
-                <div class="form-group" id="mileageDiv" >
+
+                <div class="form-group" id="mileageDiv">
                     <label for="miles">Enter Mileage:</label>
                     <div>
-                        <input type="number" 
-                            id="miles" 
-                            name="miles" 
-                            step="0.5" 
-                            min="0" 
-                            placeholder="Example: 5" 
+                        <input type="number"
+                            id="miles"
+                            name="miles"
+                            step="0.5"
+                            min="0"
+                            placeholder="Example: 5"
                             oninput="validateForm()"
-                            required
-                            >
+                            required>
                     </div>
-                <br>
+                    <br>
                 </div>
-                
+
 
                 <div class="form-group" id="modeSelectGroup">
                     <label for="modeSelect">Mode:</label>
@@ -151,9 +163,9 @@
                             <option value="Walk">Walk</option>
                         </select>
                     </div>
-                <br>
+                    <br>
                 </div>
-                
+
 
                 <div class="form-group" id="gsSelectGroup">
                     <label for="gsSelect">Was this a Golden Spoke Ride?</label>
@@ -164,16 +176,20 @@
                             <option value="yes">Yes</option>
                         </select>
                     </div>
-                <br>
+                    <br>
                 </div>
 
-                
+
                 <div id="buttonDiv">
                     <button id="bat_button" class="btn success" type="button" name="submit" onclick="submitRide()" disabled> Log a ride </button>
-                </div>  
+
+                    <button id="aboutBtn" class="btn success" type="button">About the Challenge</button>
+                </div>
             </form>
-        </div>  
+        </div>
+
         
+
         <div id="footerDiv">
             <b>Sponsored by: </b> <b style="color: #EFBF04;">Beehive Bikeways</b>
         </div>
@@ -189,72 +205,47 @@
 
 
 
-  <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
-  <script>
-    // var bar = new ProgressBar.Line(container, {
-    //   strokeWidth: 4,
-    //   easing: "easeInOut",
-    //   duration: 3000,
-    //   color: "#FFEA82",
-    //   trailColor: "#eee",
-    //   trailWidth: 1,
-    //   svgStyle: { width: "100%", height: "100%" },
-    //   text: {
-    //     style: {
-    //       // Text color.
-    //       // Default: same as stroke color (options.color)
-    //       color: "#999",
-    //       position: "absolute",
-    //       right: "0",
-    //       top: "30px",
-    //       padding: 0,
-    //       margin: 0,
-    //       transform: null,
-    //     },
-    //     autoStyleContainer: false,
-    //   },
-    //   from: { color: "#FFEA82" },
-    //   to: { color: "#ED6A5A" },
-    //   step: (state, bar) => {
-    //     bar.setText(Math.round(bar.value() * 100) + " %");
-    //   },
-    // });
+    <script>
+       
+        var progressContainer = document.getElementById("progress-container")
+        var bar = new ProgressBar.SemiCircle(progressContainer, {
+            strokeWidth: 6,
+            color: '#FFEA82',
+            trailColor: '#eeeeee',
+            trailWidth: 1,
+            easing: 'easeInOut',
+            duration: 3000,
+            svgStyle: null,
+            text: {
+                value: '',
+                alignToBottom: false
+            },
+            from: {
+                color: '#fffb00'
+            },
+            to: {
+                color: '#1f6af7'
+            },
+            // Set default step function for all animate calls
+            step: (state, bar) => {
+                bar.path.setAttribute('stroke', state.color);
+                var value = Math.round(bar.value() * 2071);
+                if (value === 0) {
+                    bar.setText('');
+                } else {
+                    bar.setText(value + ' / 2071 Miles');
+                }
 
-    // bar.animate(1.0); // Number from 0.0 to 1.0
-    var progressContainer = document.getElementById("progress-container")
-    var bar = new ProgressBar.SemiCircle(progressContainer, {
-      strokeWidth: 6,
-      color: '#FFEA82',
-      trailColor: '#eee',
-      trailWidth: 1,
-      easing: 'easeInOut',
-      duration: 3000,
-      svgStyle: null,
-      text: {
-        value: '',
-        alignToBottom: false
-      },
-      from: { color: '#FFEA82' },
-      to: { color: '#ED6A5A' },
-      // Set default step function for all animate calls
-      step: (state, bar) => {
-        bar.path.setAttribute('stroke', state.color);
-        var value = Math.round(bar.value() * 100);
-        if (value === 0) {
-          bar.setText('');
-        } else {
-          bar.setText(value + '%');
-        }
-
-        bar.text.style.color = state.color;
-      }
-    });
-    bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-    bar.text.style.fontSize = '2rem';
-
-    
-  </script>
+                bar.text.style.color = state.color;
+            }
+        });
+        bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+        bar.text.style.fontSize = '2rem';
+        bar.animate(mileageProgress);
+    </script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
