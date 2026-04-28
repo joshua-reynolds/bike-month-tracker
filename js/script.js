@@ -1,9 +1,103 @@
+let teams = [];
+let grandTotalMiles;
+let mileageProgress;
+let progresscontainer;
+let bar;
+const mileGoal = 2071;
+
+// create progress bar
+progressContainer = document.getElementById('progress-container');
+bar = new ProgressBar.SemiCircle(progressContainer, {
+  strokeWidth: 6,
+  color: '#fffb00',
+  trailColor: '#eeeeee',
+  trailWidth: 1,
+  easing: 'easeInOut',
+  duration: 1800,
+  svgStyle: null,
+  text: {
+    value: '',
+    alignToBottom: false,
+  },
+  from: {
+    color: '#92fe9d',
+  },
+  to: {
+    color: '#fffb00',
+  },
+  // Set default step function for all animate calls
+  step: (state, bar) => {
+    bar.path.setAttribute('stroke', state.color);
+
+    let displayMiles = Math.round(
+      (grandTotalMiles * bar.value()) / mileageProgress,
+    );
+    if (displayMiles === 0) {
+      bar.setText("Let's get started!");
+    } else if (bar.value() >= 1 && mileageProgress >= 1) {
+      bar.setText('🏆 GOAL REACHED: ' + Math.round(grandTotalMiles) + ' Miles');
+      bar.text.style.fontWeight = 'bold';
+    } else {
+      bar.setText(displayMiles + ' / ' + mileGoal + ' Miles');
+    }
+    bar.text.style.color = state.color;
+  },
+});
+bar.text.style.fontFamily = '"Lexend", sans-serif';
+bar.text.style.fontSize = '1.5rem';
+
+function celebrate() {
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: {
+      y: 0.6,
+    },
+    colors: ['#00d2ff', '#92fe9d', '#fde047'], // Use your gradient colors!
+  });
+}
+
+// Fetch the Teams data and the benchmarks at the same time
+Promise.all([
+  fetch('includes/getJSON.php').then((res) => res.json()),
+  fetch('data/benchmarks.json').then((res) => res.json()),
+])
+  .then(([newTeams, benchmarks]) => {
+    // --- PART A: PROCESS TEAMS ---
+    teams = newTeams;
+    grandTotalMiles = teams.reduce((accumulator, team) => {
+      return accumulator + (parseFloat(team.total_miles) || 0);
+    }, 0);
+
+    // get the miles, animate the bar
+    mileageProgress = grandTotalMiles / mileGoal;
+    bar.animate(mileageProgress);
+
+    // --- PART B: PROCESS BENCHMARKS ---
+    // Now grandTotalMiles is GUARANTEED to exist and be a number
+    const achieved = benchmarks
+      .filter((b) => b.distance <= grandTotalMiles)
+      .reduce((prev, curr) => (curr.distance > prev.distance ? curr : prev));
+
+    // find the benchmark div and update the text
+    document.getElementById('benchmarkDiv').innerHTML = `
+      <h3>Fun Fact: ${achieved.icon} ${achieved.benchmark}</h3>
+      <p>${achieved.fact}</p>
+  `;
+
+    // if Goal as been reached show confetti
+    if (mileageProgress >= 1) {
+      celebrate();
+    }
+  })
+  .catch((err) => console.error('Error loading data:', err));
+
 // modal page stuff
 const modal = document.getElementById('aboutModal');
-const btn = document.getElementById('aboutBtn');
+const aboutBtn = document.getElementById('aboutBtn');
 const span = document.getElementsByClassName('close')[0];
 
-btn.onclick = () => (modal.style.display = 'block');
+aboutBtn.onclick = () => (modal.style.display = 'block');
 span.onclick = () => (modal.style.display = 'none');
 
 // Close if they click anywhere OUTSIDE the box
@@ -11,99 +105,28 @@ window.onclick = (event) => {
   if (event.target == modal) modal.style.display = 'none';
 };
 
-/* 
-function revealMessage() {
-	document.getElementById("hiddenMessage").style.display = 'block';
-}
-
-
-
-function countDown(){
-	var currentVal = document.getElementById("countDownButton").innerHTML;
-	var newVal = 0;
-
-	if (currentVal > 0){
-		newVal = currentVal - 1;
-	}
-	document.getElementById('countDownButton').innerHTML = newVal;
-}
-*/
-
-function getTeam() {
-  var e = document.getElementById('teamSelect').value;
-  document.getElementById('team_name').innerHTML = e;
-}
-
-function updateMainDiv() {
-  document.getElementById('main').innerHTML = '';
-}
-
-function revealMessage2() {
-  document.getElementById('hiddenMessage2').style.display = 'block';
-}
-
-function play0() {
-  var audio = new Audio('sound_effects/Laugh.mp3');
-  audio.play();
-}
-
-function play1() {
-  var audio = new Audio('sound_effects/Baseball_Hit_Sound_Effect.mp3');
-  audio.play();
-}
-
-function play2() {
-  var audio = new Audio(
-    'sound_effects/Baseball_Hit_With_Cheer_Sound_Effect.mp3',
-  );
-  audio.play();
+// standings button
+function goToStandings() {
+  window.location.href = 'standings.php';
 }
 
 function redirectTo(sUrl) {
   window.location = sUrl;
 }
 
-// function bat() {
-//   // get teamName/id from drop down somehow
-//   var tn = document.getElementById("team_name").innerHTML;
-
-//   // get id
-
-//   // get date
-
-//   let result = Math.floor(Math.random() * 5);
-
-//   if (result == 0) {
-//     play0();
-//   } else if (result > 0 && result <= 2) {
-//     play1();
-//   } else if (result > 2) {
-//     play2();
-//   }
-
-//   const results = {
-//     0: "Out",
-//     1: "Single",
-//     2: "Double",
-//     3: "Triple!",
-//     4: "Home-Run!!",
-//   };
-//   document.getElementById("bat_result").innerHTML = results[result];
-
-//   // create an insert record using team id, date, and result
-// }
-
-// function bat2() {
-//   $.ajax({
-//     type: "POST",
-//     url: "results.php",
-//     dataType: "json",
-//     success: function (response) {},
-//   });
-// }
+function celebrate() {
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: {
+      y: 0.6,
+    },
+    colors: ['#00d2ff', '#92fe9d', '#fde047'], // Use your gradient colors!
+  });
+}
 
 function validateForm() {
-  const submitBtn = document.getElementById('bat_button');
+  const submitBtn = document.getElementById('submitBtn');
   const mileageInput = document.getElementById('miles');
   const teamSelect = document.getElementById('teamSelect');
   const modeSelect = document.getElementById('modeSelect');
@@ -136,23 +159,46 @@ function submitRide() {
   })
     .then((response) => response.text())
     .then((data) => {
-      alert('Ride logged successfully!');
+      alert('Ride logged! Excellent work!');
+      document.getElementById('miles').value = '';
+      document.getElementById('submitBtn').disabled = true;
       return fetch('includes/getJSON.php');
     })
     .then((response) => response.json())
-    .then((teams) => {
-      console.log('Updated teams:', teams);
-      
+    .then((newTeams) => {
+      // overwrite team global with updated teams
+      teams = newTeams;
+
+      // console.log('Updated teams:', teams);
+      updateTeamStats(document.getElementById('teamSelect').value);
+
+      // update total team miles
       grandTotalMiles = teams.reduce((accumulator, team) => {
         return accumulator + parseFloat(team.total_miles);
       }, 0);
-      mileageProgress = grandTotalMiles / 2071;
-	  bar.animate(mileageProgress);
+
+      mileageProgress = grandTotalMiles / mileGoal;
+      bar.animate(mileageProgress);
+
+      // launch fireworks if goal is met
+      if (mileageProgress >= 1) {
+        celebrate();
+      }
     })
     .catch((error) => {
       console.error('Error in the sequence:', error);
     });
 }
+
+updateTeamStats = function (_team_id) {
+  const team_object = teams.find((team) => team.team_id === _team_id);
+  const team_rides = team_object.total_rides;
+  const team_miles = team_object.total_miles;
+  const message1 = `Your Rides Logged: ${team_rides}`;
+  const message2 = `Your Miles Pedaled: ${team_miles}`;
+  document.getElementById('teamRidesText').innerHTML = message1;
+  document.getElementById('teamMilesText').innerHTML = message2;
+};
 
 // When a team is selected with the drop down
 window.onload = function () {
@@ -160,72 +206,67 @@ window.onload = function () {
     document
       .getElementById('teamSelect')
       .addEventListener('change', function () {
-        // Clear the content of the div
-        // document.getElementById("contentDiv").innerHTML = "status goes here...";
-        var team_id = document.getElementById('teamSelect').value;
-        var team_object = teams.find((team) => team.team_id === team_id);
-        var team_rides = team_object.total_rides;
-        var team_miles = team_object.total_miles;
-        // var r1 = parseInt(team.runner1);
-        // var r1 = parseInt(team.runner1);
-        // var r2 = parseInt(team.runner2);
-        // var r3 = parseInt(team.runner3);
-        // var runners = Array(r1, r2, r3);
-        // var runs = parseInt(team.runs);
-        // var outs = parseInt(team.outs);
-        // var count_attempts_day = parseInt(team.count_attempts_day);
-        // var remaining_attempts = (3 - count_attempts_day) < 0 ? 0 : (3 - count_attempts_day);
+        let team_id = document.getElementById('teamSelect').value;
+        updateTeamStats(team_id);
 
-        // // current runners (query database)
-        // if (runners.includes(1) == true && runners.includes(2) == true && runners.includes(3) == true){
-        // 	var image =  '<img id=bases src="graphics/bases-first-second-third.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == true && runners.includes(2) == true && runners.includes(3) == false){
-        // 	var image =  '<img id=bases src="graphics/bases-first-second.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == true && runners.includes(2) == false && runners.includes(3) == true){
-        // 	var image =  '<img id=bases src="graphics/bases-first-third.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == false && runners.includes(2) == true && runners.includes(3) == true){
-        // 	var image =  '<img id=bases src="graphics/bases-second-third.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == true && runners.includes(2) == false && runners.includes(3) == false){
-        // 	var image =  '<img id=bases src="graphics/bases-first-only.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == false && runners.includes(2) == true && runners.includes(3) == false){
-        // 	var image =  '<img id=bases src="graphics/bases-second-only.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == false && runners.includes(2) == false && runners.includes(3) == true){
-        // 	var image =  '<img id=bases src="graphics/bases-third-only.png" alt="homerun">';
-        // }
-        // else if(runners.includes(1) == false && runners.includes(2) == false && runners.includes(3) == false){
-        // 	var image =  '<img id=bases src="graphics/bases-empty.png" alt="homerun">';
-        // }
+        let team_object = teams.find((team) => team.team_id === team_id);
+        let team_rides = team_object.total_rides;
+        let team_miles = team_object.total_miles;
 
-        message1 = `Rides Logged: ${team_rides}`;
-        message2 = `Miles Pedaled: ${team_miles}`;
-
-        // document.getElementById("contentDiv").style.display = 'none';
-        // document.getElementById("imageDiv").style.display = 'none';
-
-        document.getElementById('progress-container').style.display = 'grid';
+        document.getElementById('benchmarkDiv').style.display = 'none';
         document.getElementById('mileageDiv').style.display = 'grid';
         document.getElementById('modeSelectGroup').style.display = 'grid';
         document.getElementById('gsSelectGroup').style.display = 'grid';
-        // document.getElementById("buttonDiv").style.display = 'grid';
-        // bar.set(0); this retriggers animation
-        bar.animate(mileageProgress); // Number from 0.0 to 1.0, this amount will be the amount from the database
-        document.getElementById('contentDiv2').style.display = 'grid';
-        document.getElementById('runsP').innerHTML = message1;
-        document.getElementById('outsP').innerHTML = message2;
-        // document.getElementById("atBatsP").innerHTML = message3;
-        // document.getElementById("runnersDiv").innerHTML = image;
 
-        // setTimeout(function() {
-        // 	if (remaining_attempts == 0){
-        // 		alert(`You have completed all of your at-bats for today. Please check back in tomorrow!`)
-        // 	}
-        // }, 100);
+        // Update progress bar
+        bar.animate(mileageProgress);
+
+        document.getElementById('teamContentDiv').style.display = 'grid';
       });
   }
 };
+
+// Easter Egg
+let clickCount = 0;
+
+const secretTrigger = document.getElementById('beehiveBikewaysLogo');
+
+secretTrigger.addEventListener('click', () => {
+  clickCount++;
+
+  if (clickCount === 3) {
+    openSecretVideo();
+    clickCount = 0; // Reset
+  }
+
+  // Reset count if they don't click fast enough (within 1 second)
+  setTimeout(() => {
+    clickCount = 0;
+  }, 1000);
+});
+
+function openSecretVideo() {
+  const overlay = document.getElementById('video-easter-egg');
+  const video = document.getElementById('secret-video');
+
+  overlay.style.display = 'flex';
+
+  // Attempt to play
+  let playPromise = video.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch((error) => {
+      console.log("Autoplay prevented. Show a 'Play' button.");
+      // You could show a "Tap to Start" button here if it fails
+    });
+  }
+}
+
+function closeSecretVideo() {
+  const overlay = document.getElementById('video-easter-egg');
+  const video = document.getElementById('secret-video');
+
+  video.pause();
+  video.currentTime = 0; // Rewind for next time
+  overlay.style.display = 'none';
+}

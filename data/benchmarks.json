@@ -1,0 +1,254 @@
+[
+    {
+        "distance": 0,
+        "benchmark": "The Starting Line",
+        "fact": "Every great journey starts with a single pedal stroke. We've officially begun the challenge!",
+        "icon": "\ud83c\udfc1"
+    },
+    {
+        "distance": 50,
+        "benchmark": "The English Channel",
+        "fact": "We've ridden the equivalent of crossing the English Channel and back!",
+        "icon": "\ud83c\udf0a"
+    },
+    {
+        "distance": 100,
+        "benchmark": "The Century Mark",
+        "fact": "We've completed a 'Century'. That's the width of Rhode Island three times over!",
+        "icon": "\ud83d\udcaf"
+    },
+    {
+        "distance": 150,
+        "benchmark": "Suez Canal",
+        "fact": "We've traveled the entire length of the Suez Canal in Egypt.",
+        "icon": "\ud83d\udea2"
+    },
+    {
+        "distance": 200,
+        "benchmark": "The Double Century",
+        "fact": "We've covered the distance of the famous Seattle to Portland classic bike ride.",
+        "icon": "\ud83d\udeb2"
+    },
+    {
+        "distance": 250,
+        "benchmark": "Low Earth Orbit",
+        "fact": "We've traveled the distance from Earth up to the International Space Station!",
+        "icon": "\ud83d\ude80"
+    },
+    {
+        "distance": 300,
+        "benchmark": "The Grand Tour",
+        "fact": "We've traveled the equivalent distance between London and Paris.",
+        "icon": "\ud83d\uddfc"
+    },
+    {
+        "distance": 350,
+        "benchmark": "The California Coast",
+        "fact": "We've ridden the distance from San Francisco to Los Angeles.",
+        "icon": "\ud83c\udf09"
+    },
+    {
+        "distance": 400,
+        "benchmark": "The State Crosser",
+        "fact": "We've ridden far enough to cross the entire state of Iowa from East to West.",
+        "icon": "\ud83c\udf3d"
+    },
+    {
+        "distance": 450,
+        "benchmark": "Grand Canyon Loop",
+        "fact": "We've traveled the full length of the Grand Canyon and then some!",
+        "icon": "\ud83c\udfdc\ufe0f"
+    },
+    {
+        "distance": 500,
+        "benchmark": "The Proclaimers Milestone",
+        "fact": "We've officially ridden 500 miles! According to the song, we have 500 more to go.",
+        "icon": "\ud83c\udfb5"
+    },
+    {
+        "distance": 550,
+        "benchmark": "The Florida Run",
+        "fact": "We've traveled from the Georgia border to the very tip of the Florida Keys.",
+        "icon": "\ud83c\udfdd\ufe0f"
+    },
+    {
+        "distance": 600,
+        "benchmark": "Length of Italy",
+        "fact": "We've covered the distance from the Italian Alps to the 'toe' of the boot.",
+        "icon": "\ud83c\uddee\ud83c\uddf9"
+    },
+    {
+        "distance": 650,
+        "benchmark": "Seoul to Tokyo",
+        "fact": "We've covered the distance between the capitals of South Korea and Japan.",
+        "icon": "\u26e9\ufe0f"
+    },
+    {
+        "distance": 700,
+        "benchmark": "The Red Sea",
+        "fact": "We've traveled the width of the Red Sea at its widest point.",
+        "icon": "\ud83d\udea9"
+    },
+    {
+        "distance": 750,
+        "benchmark": "Across Texas",
+        "fact": "We've officially made it across the widest part of Texas!",
+        "icon": "\ud83e\udd20"
+    },
+    {
+        "distance": 800,
+        "benchmark": "Length of California",
+        "fact": "We've traveled the entire vertical length of the state of California.",
+        "icon": "\ud83c\udfc4"
+    },
+    {
+        "distance": 850,
+        "benchmark": "End to End",
+        "fact": "We've completed the legendary 'Land's End to John o' Groats' route across Britain.",
+        "icon": "\ud83c\uddec\ud83c\udde7"
+    },
+    {
+        "distance": 900,
+        "benchmark": "London to Rome",
+        "fact": "We've traveled the distance from the UK to the heart of the Roman Empire.",
+        "icon": "\ud83c\udfdf\ufe0f"
+    },
+    {
+        "distance": 950,
+        "benchmark": "The Whale Watch",
+        "fact": "We've covered the distance a Blue Whale migrates in a single week!",
+        "icon": "\ud83d\udc0b"
+    },
+    {
+        "distance": 1000,
+        "benchmark": "The Full Proclaimers",
+        "fact": "We've walked (or ridden) 500 miles, and then we rode 500 more!",
+        "icon": "\ud83c\udfb6"
+    },
+    {
+        "distance": 1050,
+        "benchmark": "Great Barrier Reef",
+        "fact": "We've traveled nearly half the length of the world's largest coral reef.",
+        "icon": "\ud83d\udc20"
+    },
+    {
+        "distance": 1100,
+        "benchmark": "Across the Sahara",
+        "fact": "We've crossed the width of the Sahara Desert.",
+        "icon": "\ud83d\udc2b"
+    },
+    {
+        "distance": 1150,
+        "benchmark": "NYC to Miami",
+        "fact": "We've traveled from the Big Apple down to the beaches of Miami.",
+        "icon": "\ud83c\udfd9\ufe0f"
+    },
+    {
+        "distance": 1200,
+        "benchmark": "The Nordic Trek",
+        "fact": "We've traveled the entire length of Norway from south to north.",
+        "icon": "\ud83c\uddf3\ud83c\uddf4"
+    },
+    {
+        "distance": 1250,
+        "benchmark": "Mediterranean Crossing",
+        "fact": "We've traveled the distance across the Mediterranean Sea.",
+        "icon": "\ud83c\udf0a"
+    },
+    {
+        "distance": 1300,
+        "benchmark": "Himalayan Heights",
+        "fact": "We've traveled the entire length of the Himalayan mountain range.",
+        "icon": "\ud83c\udfd4\ufe0f"
+    },
+    {
+        "distance": 1350,
+        "benchmark": "Gulf of Mexico",
+        "fact": "We've traveled the distance across the Gulf of Mexico.",
+        "icon": "\ud83c\udf64"
+    },
+    {
+        "distance": 1400,
+        "benchmark": "Rocky Mountains",
+        "fact": "We've covered a massive portion of the Rocky Mountain range.",
+        "icon": "\u26f0\ufe0f"
+    },
+    {
+        "distance": 1450,
+        "benchmark": "Appalachian Halfway",
+        "fact": "We've completed the equivalent of half the Appalachian Trail!",
+        "icon": "\ud83e\udd7e"
+    },
+    {
+        "distance": 1500,
+        "benchmark": "NYC to Denver",
+        "fact": "We've traveled from the Atlantic coast all the way to the Mile High City.",
+        "icon": "\ud83c\udfd4\ufe0f"
+    },
+    {
+        "distance": 1550,
+        "benchmark": "Danube River",
+        "fact": "We've followed the path of the Danube, Europe's second-longest river.",
+        "icon": "\ud83d\udca7"
+    },
+    {
+        "distance": 1600,
+        "benchmark": "Scandinavian Length",
+        "fact": "We've covered the distance from the bottom of Denmark to the top of Sweden.",
+        "icon": "\ud83c\uddf8\ud83c\uddea"
+    },
+    {
+        "distance": 1650,
+        "benchmark": "Baja Peninsula",
+        "fact": "We've traveled the entire length of the Baja California Peninsula.",
+        "icon": "\ud83c\udf35"
+    },
+    {
+        "distance": 1700,
+        "benchmark": "Australian Crossing",
+        "fact": "We've traveled the distance from the north to the south of Australia.",
+        "icon": "\ud83e\udd98"
+    },
+    {
+        "distance": 1750,
+        "benchmark": "Madagascar Coast",
+        "fact": "We've traveled the distance of nearly the entire coastline of Madagascar.",
+        "icon": "\ud83d\udc12"
+    },
+    {
+        "distance": 1800,
+        "benchmark": "The Great Wall",
+        "fact": "We've covered a significant portion of the Great Wall of China's total length.",
+        "icon": "\ud83e\uddf1"
+    },
+    {
+        "distance": 1850,
+        "benchmark": "Paris to Moscow",
+        "fact": "We've traveled the distance from Western Europe deep into Russia.",
+        "icon": "\ud83c\udff0"
+    },
+    {
+        "distance": 1900,
+        "benchmark": "London to Istanbul",
+        "fact": "We've traveled the distance from London all the way to Istanbul.",
+        "icon": "\ud83d\udd4c"
+    },
+    {
+        "distance": 1950,
+        "benchmark": "Yukon River",
+        "fact": "We've traveled the equivalent length of the mighty Yukon River.",
+        "icon": "\ud83d\udef6"
+    },
+    {
+        "distance": 2000,
+        "benchmark": "The Atlantic Halfway",
+        "fact": "We've traveled nearly halfway across the Atlantic Ocean! Next stop: Europe?",
+        "icon": "\ud83d\udea2"
+    },
+    {
+        "distance": 2070,
+        "benchmark": "Bravo!",
+        "fact": "We have collectively rode the entire length of the Tour de France! Excellent work, everyone!",
+        "icon": "🏆"
+    }
+]
