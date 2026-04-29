@@ -151,7 +151,7 @@ include_once 'includes/dbconnect.inc.php';
 
 
                 <div id="buttonDiv">
-                    <button id="submitBtn" class="btn success" type="button" name="submit" onclick="submitRide()" disabled> Log a ride </button>
+                    <button id="submitBtn" class="btn success" type="button" name="submit" onclick="submitRide()" disabled> Log my ride! </button>
 
 
                 </div>
@@ -191,7 +191,7 @@ include_once 'includes/dbconnect.inc.php';
 
 
 
-    
+
 
     <script>
 
