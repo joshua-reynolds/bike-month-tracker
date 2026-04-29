@@ -32,7 +32,7 @@ bar = new ProgressBar.SemiCircle(progressContainer, {
     let displayMiles = Math.round(
       (grandTotalMiles * bar.value()) / mileageProgress,
     );
-    if (displayMiles === 0) {
+    if (!displayMiles || isNaN(displayMiles)) {
       bar.setText("Let's get started!");
     } else if (bar.value() >= 1 && mileageProgress >= 1) {
       bar.setText('🏆 GOAL REACHED: ' + Math.round(grandTotalMiles) + ' Miles');
