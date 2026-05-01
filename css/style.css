@@ -100,6 +100,14 @@ u {
   padding-left: 10px;
   /* width: 50%; */
   margin: 0 auto;
+  text-align: center;
+}
+
+#contentDiv ul, 
+#contentDiv ol {
+    display: inline-block; /* Makes the list box only as wide as the text */
+    text-align: left;      /* Keeps bullets/numbers lined up on the left */
+    padding-left: 30px;    /* Room for the bullets/numbers to breathe */
 }
 
 #teamContentDiv {

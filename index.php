@@ -52,7 +52,7 @@ include_once 'includes/dbconnect.inc.php';
                     <li><strong>Bring a Buddy:</strong> Towing a passenger (trailer/carrier)? Count their miles too!</li>
                     <li><strong>Double Miles:</strong> Earn 2x mileage for the <strong>Golden Spoke Ride</strong> on May 16th.</li>
                     <li><strong>No Bike? No Problem:</strong> Walking miles count at a 1:1 ratio.</li>
-                    <!-- <li>Click <a href="standings.php">here</a> to view the top cyclists.</li> -->
+                    
                 </ul>
 
                 <h2>How to play:</h2>
