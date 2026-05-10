@@ -13,7 +13,7 @@
 include_once 'includes/dbconnect.inc.php';
 
 // store the query
-$sqli = "SELECT  t.name, COALESCE(SUM(r.miles), 0) AS total_miles
+$sqli = "SELECT  t.name, ROUND(COALESCE(SUM(r.miles), 0), 1) AS total_miles
                 FROM teams t 
                 LEFT JOIN rides r ON t.team_id = r.team_id
                 GROUP BY t.team_id, t.name
